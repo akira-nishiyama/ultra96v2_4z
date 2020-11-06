@@ -44,6 +44,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
    create_project project_1 myproj -part xczu3eg-sbva484-1-e
+   set_property BOARD_PART em.avnet.com:ultra96v2:part0:1.0 [current_project]
 }
 
 
@@ -426,9 +427,11 @@ proc create_root_design { parentCell } {
   set system_management_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_management_wiz:1.3 system_management_wiz_0 ]
   set_property -dict [ list \
    CONFIG.CHANNEL_ENABLE_VP_VN {false} \
+   CONFIG.ENABLE_RESET {false} \
    CONFIG.ENABLE_VCCPSAUX_ALARM {false} \
    CONFIG.ENABLE_VCCPSINTFP_ALARM {false} \
    CONFIG.ENABLE_VCCPSINTLP_ALARM {false} \
+   CONFIG.INTERFACE_SELECTION {Enable_AXI} \
    CONFIG.OT_ALARM {false} \
    CONFIG.USER_TEMP_ALARM {false} \
    CONFIG.VCCAUX_ALARM {false} \
@@ -1337,7 +1340,6 @@ proc create_root_design { parentCell } {
   set_property PFM.AXI_PORT {  M_AXI_HPM1_FPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC" sptag "HPC0" memory "zynq_ultra_ps_e_0 HPC0_DDR_LOW"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC" sptag "HPC1" memory "zynq_ultra_ps_e_0 HPC1_DDR_LOW"}  S_AXI_HP0_FPD {memport "S_AXI_HP" sptag "HP0" memory "zynq_ultra_ps_e_0 HP0_DDR_LOW"}  S_AXI_HP1_FPD {memport "S_AXI_HP" sptag "HP1" memory "zynq_ultra_ps_e_0 HP1_DDR_LOW"}  S_AXI_HP2_FPD {memport "S_AXI_HP" sptag "HP2" memory "zynq_ultra_ps_e_0 HP2_DDR_LOW"}  S_AXI_HP3_FPD {memport "S_AXI_HP" sptag "HP3" memory "zynq_ultra_ps_e_0 HP3_DDR_LOW"}  } [get_bd_cells /zynq_ultra_ps_e_0]
 
 
-  validate_bd_design
   save_bd_design
 }
 # End of create_root_design()
@@ -1349,4 +1351,6 @@ proc create_root_design { parentCell } {
 
 create_root_design ""
 
+
+common::send_msg_id "BD_TCL-1000" "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 

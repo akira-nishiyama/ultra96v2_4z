@@ -71,10 +71,10 @@ set(SET_PROPERTY_TCL "${CMAKE_CURRENT_SOURCE_DIR}/scripts/set_property.tcl")
 set(RTL_PACKAGE_FLAG "0")
 
 project_generation( ${PROJECT_NAME} ${VENDOR} ${LIBRARY_NAME} ${TARGET_DEVICE} "${SRC_FILES}" "${TESTBENCH_FILES}" "${IP_REPO_PATH}")
-project_add_constr( ${PROJECT_NAME} ${CONSTR_FILES} prj_gen_${PROJECT_NAME})
+project_source_tcl( set_property ${SET_PROPERTY_TCL} prj_gen_${PROJECT_NAME})
+project_add_constr( ${PROJECT_NAME} ${CONSTR_FILES} source_tcl_set_property)
 project_add_bd( ${PROJECT_NAME} ${BLOCK_DESIGN_TCL} add_constr_${PROJECT_NAME})
-project_source_tcl( set_property ${SET_PROPERTY_TCL} add_bd_${PROJECT_NAME})
-generate_bitstream( ${PROJECT_NAME} 4 source_tcl_set_property)
+generate_bitstream( ${PROJECT_NAME} 4 add_bd_${PROJECT_NAME})
 #project_add_bd( ${PROJECT_NAME} ${BLOCK_DESIGN_TCL} prj_gen_${PROJECT_NAME})
 #export_ip( ${VENDOR} ${LIBRARY_NAME} ${RTL_PACKAGE_FLAG})
 

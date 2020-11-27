@@ -26,18 +26,18 @@ set(TARGET_DEVICE "xczu3eg-sbva484-1-e")
 #        GIT_REPOSITORY https://github.com/akira-nishiyama/simple_axi_uvm.git
 #        )
 
-find_path( avnet_hdl_repo
-    NAME hdl
-    HINTS ${CMAKE_CURRENT_BINARY_DIR}
-)
-message("avnet_hdl_repo: ${avnet_hdl_repo}")
-if(avnet_hdl_repo STREQUAL "avnet_hdl_repo-NOTFOUND")
-    find_package(Git)
-    execute_process(COMMAND
-        ${GIT_EXECUTABLE} clone --recursive --depth=1 --branch=2019.2 https://github.com/Avnet/hdl.git hdl
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    )
-endif()
+#find_path( avnet_hdl_repo
+#    NAME hdl
+#    HINTS ${CMAKE_CURRENT_BINARY_DIR} $ENV{IP_REPO_PATHS}
+#)
+#message("avnet_hdl_repo: ${avnet_hdl_repo}")
+#if(avnet_hdl_repo STREQUAL "avnet_hdl_repo-NOTFOUND")
+#    find_package(Git)
+#    execute_process(COMMAND
+#        ${GIT_EXECUTABLE} clone --recursive --depth=1 --branch=2019.2 https://github.com/Avnet/hdl.git hdl
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#    )
+#endif()
 
 #source list
 set(SRC_FILES "")
@@ -56,6 +56,8 @@ list(APPEND CONSTR_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/constrs/ultra96v2_oob.
 #ip_repo_path list
 set(IP_REPO_PATH "")
 list(APPEND IP_REPO_PATH "${CMAKE_CURRENT_BINARY_DIR}")
+#list(APPEND IP_REPO_PATH "${avnet_hdl_repo}")
+
 
 #vivado create_project name(currently fixed to project_1)
 set(VIVADO_PRJ_NAME "project_1")
